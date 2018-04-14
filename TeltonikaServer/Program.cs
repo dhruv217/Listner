@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Net.Sockets;
@@ -25,44 +26,57 @@ namespace TeltonikaServer
 
         private static void ThreadProc(object state)
         {
-            string IMEI = "";
-            var client = ((TcpClient)state);
-            NetworkStream nwStream = ((TcpClient)state).GetStream();
+            string imei = string.Empty;
+            var client = ((TcpClient) state);
+            NetworkStream nwStream = ((TcpClient) state).GetStream();
             byte[] buffer = new byte[client.ReceiveBufferSize];
-            bool imeiRecieved =false;
-            while (client.Connected)
+
+            try
             {
-                try
+              
+
+                while (true)
                 {
                     int bytesRead = nwStream.Read(buffer, 0, client.ReceiveBufferSize);
 
                     string dataReceived = Encoding.ASCII.GetString(buffer, 0, bytesRead);
-
-                    if (!imeiRecieved)
+                    if (imei == string.Empty)
                     {
-                        IMEI = dataReceived;
+                        imei = dataReceived;
                         Console.WriteLine("IMEI received : " + dataReceived);
 
-                        Byte[] result = {(byte) 0x01};
-                        nwStream.Write(result, 0, 1);
-                        imeiRecieved = true;
+                        Byte[] b = { 0x01 };
+                        nwStream.Write(b, 0, 1);
+
                     }
                     else
                     {
-                        var parser = new TeltonikaDevicesParser(false);
-                        var result = parser.Decode(new List<byte>(buffer), IMEI);
+                        int dataNumber =  Convert.ToInt32(buffer.Skip(9).Take(1).ToList()[0]); ;
+
+                        var result = 0;
+                        while (dataNumber > 0)
+                        {
+                            var parser = new TeltonikaDevicesParser(false);
+                            result = parser.Decode(new List<byte>(buffer), imei);
+                            dataNumber--;
+                        }
                         nwStream.Write(
-                            result > 0 ? new byte[] {0x00, 0x00, 0x00, 0x01} : new byte[] {0x00, 0x00, 0x00, 0x00}, 0,
+                            result > 0 ? new byte[] { 0x00, 0x00, 0x00, 0x01 } : new byte[] { 0x00, 0x00, 0x00, 0x00 }, 0,
                             4);
                     }
                 }
-                catch (Exception e)
-                {
-                   // Console.WriteLine(e);
-                    client.Close();
-                    //throw;
-                }
+
+
+
+
             }
+            catch (Exception e)
+            {
+                // Console.WriteLine(e);
+                client.Close();
+                //throw;
+            }
+
             //throw new NotImplementedException();
         }
 
