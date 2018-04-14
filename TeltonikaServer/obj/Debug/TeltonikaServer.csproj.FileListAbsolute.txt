@@ -1,0 +1,9 @@
+C:\Users\pen\Source\Repos\TeltonikaServer\TeltonikaServer\bin\Debug\TeltonikaServer.exe.config
+C:\Users\pen\Source\Repos\TeltonikaServer\TeltonikaServer\bin\Debug\TeltonikaServer.exe
+C:\Users\pen\Source\Repos\TeltonikaServer\TeltonikaServer\bin\Debug\TeltonikaServer.pdb
+C:\Users\pen\Source\Repos\TeltonikaServer\TeltonikaServer\bin\Debug\NetSockets.dll
+C:\Users\pen\Source\Repos\TeltonikaServer\TeltonikaServer\bin\Debug\SimpleTCP.dll
+C:\Users\pen\Source\Repos\TeltonikaServer\TeltonikaServer\obj\Debug\TeltonikaServer.csproj.CoreCompileInputs.cache
+C:\Users\pen\Source\Repos\TeltonikaServer\TeltonikaServer\obj\Debug\TeltonikaServer.exe
+C:\Users\pen\Source\Repos\TeltonikaServer\TeltonikaServer\obj\Debug\TeltonikaServer.pdb
+C:\Users\pen\Source\Repos\TeltonikaServer\TeltonikaServer\obj\Debug\TeltonikaServer.csprojResolveAssemblyReference.cache
